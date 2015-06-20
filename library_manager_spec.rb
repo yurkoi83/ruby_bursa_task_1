@@ -10,7 +10,7 @@ describe LibraryManager do
 
     res = LibraryManager.new.penalty(price_in_cent, two_days_ago)
 
-    expect(res).to eq 68
+    expect(res).to eq 67
   end
 
 
@@ -18,6 +18,10 @@ describe LibraryManager do
     res = LibraryManager.new.could_meet_each_other?(1234, 1256, 1876, 1955)
 
     expect(res).to eq false
+
+    res = LibraryManager.new.could_meet_each_other?(1234, 1256, 1235, 1245)
+
+    expect(res).to eq true
   end
 
 
@@ -26,7 +30,7 @@ describe LibraryManager do
 
     res = LibraryManager.new.days_to_buy(price_in_cent)
 
-    expect(res).to eq 41
+    expect(res).to eq 42 # The result is always 41.6 ~ 42.
   end
 
 
