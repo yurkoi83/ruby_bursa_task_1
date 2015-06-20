@@ -5,12 +5,12 @@ require 'pry'
 describe LibraryManager do
 
   it 'should return penalty' do
-    some_time_ago = DateTime.new(2015, 6, 15, 17).new_offset(0)
+    two_days_ago = DateTime.now.new_offset(0) - 48.hours	
     price_in_cent = 1400
 
-    res = LibraryManager.new.penalty(price_in_cent, some_time_ago)
+    res = LibraryManager.new.penalty(price_in_cent, two_days_ago)
 
-    expect(res).to eq 173
+    expect(res).to eq 67
   end
 
 
