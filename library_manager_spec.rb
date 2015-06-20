@@ -5,12 +5,12 @@ require 'pry'
 describe LibraryManager do
 
   it 'should return penalty' do
-    two_days_ago = DateTime.now.new_offset(0) - 48.hours
+    some_time_ago = DateTime.new(2015, 6, 15, 17).new_offset(0)
     price_in_cent = 1400
 
-    res = LibraryManager.new.penalty(price_in_cent, two_days_ago)
+    res = LibraryManager.new.penalty(price_in_cent, some_time_ago)
 
-    expect(res).to eq 68
+    expect(res).to eq 173
   end
 
 
@@ -18,6 +18,10 @@ describe LibraryManager do
     res = LibraryManager.new.could_meet_each_other?(1234, 1256, 1876, 1955)
 
     expect(res).to eq false
+
+    res = LibraryManager.new.could_meet_each_other?(1234, 1256, 1235, 1245)
+
+    expect(res).to eq true
   end
 
 
