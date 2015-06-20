@@ -30,7 +30,7 @@ describe LibraryManager do
 
     res = LibraryManager.new.days_to_buy(price_in_cent)
 
-    expect(res).to eq 41
+    expect(res).to eq 42 # The result is always 41.6 ~ 42.
   end
 
 
