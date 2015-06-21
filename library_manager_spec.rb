@@ -39,7 +39,7 @@ describe LibraryManager do
 
     res = LibraryManager.new.author_translit(author_name)
 
-    expect(res).to eq 'Hnat Hotkevych'
+    expect(res).to eq 'Hnat Khotkevych'
   end
 
 
