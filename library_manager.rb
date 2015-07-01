@@ -12,9 +12,17 @@ class LibraryManager
   # Возвращаемое значение 
   # - пеня в центах
   def penalty price, issue_datetime
-    # решение пишем тут
+    return if (!price.kind_of? Numeric) || (!issue_datetime.kind_of? DateTime)
 
+    zone_seconds_addon = 0 #(DateTime.now.zone.to_i-issue_datetime.zone.to_i)*3600
+    seconds = DateTime.now.strftime('%s').to_i-issue_datetime.strftime('%s').to_i+zone_seconds_addon
 
+    if seconds<=0
+      0
+    else
+      full_hours=(seconds/3600.round(1)).floor
+      (full_hours*price*0.1/100).round(0)
+    end
 
   end
 
@@ -31,9 +39,13 @@ class LibraryManager
   # Возвращаемое значение 
   # - true или false
   def could_meet_each_other? year_of_birth_first, year_of_death_first, year_of_birth_second, year_of_death_second
-    # решение пишем тут
+    first_oldest=year_of_birth_first<=year_of_birth_second ? true : false
 
-
+    if first_oldest
+      year_of_death_first>=year_of_birth_second ? true : false
+    else
+      year_of_death_second>=year_of_birth_first ? true : false
+    end
 
   end
 
@@ -46,11 +58,7 @@ class LibraryManager
   # Возвращаемое значение 
   # - число полных дней, нак которые необходимо опоздать со здачей, чтобы пеня была равна стоимости книги.
   def days_to_buy price
-    # решение пишем тут
-
-
-
-
+    (1/(24*0.1/100)).ceil
   end
 
 
@@ -63,9 +71,27 @@ class LibraryManager
   # Возвращаемое значение 
   # - имя и фамилия автора транслитом. ("Ivan Franko")
   def author_translit ukr_name
-    # решение пишем тут
+    down_case = {
+        "а"=>"a", "б"=>"b", "в"=>"v", "г"=>"h", "ґ"=>"g",
+        "д"=>"d", "е"=>"e", "є"=>"ie", "ж"=>"zh", "з"=>"z",
+        "и"=>"y", "і"=>"i", "ї"=>"i", "й"=>"i", "к"=>"k",
+        "л"=>"l", "м"=>"m", "н"=>"n", "о"=>"o", "п"=>"p",
+        "р"=>"r", "с"=>"s", "т"=>"t", "у"=>"u", "ф"=>"f",
+        "х"=>"kh", "ц"=>"ts", "ч"=>"ch", "ш"=>"sh", "щ"=>"shch",
+        "ю"=>"iu", "я"=>"ia"
+    }
+    up_case = {
+        "А"=>"A", "Б"=>"B", "В"=>"V", "Г"=>"H", "Ґ"=>"G",
+        "Д"=>"D", "Е"=>"E", "Є"=>"Ye", "Ж"=>"Zh", "З"=>"Z",
+        "И"=>"Y", "І"=>"I", "Ї"=>"Yi", "Й"=>"Y", "К"=>"K",
+        "Л"=>"L", "М"=>"M", "Н"=>"N", "О"=>"O", "П"=>"P",
+        "Р"=>"R", "С"=>"C", "Т"=>"T", "У"=>"U", "Ф"=>"F",
+        "Х"=>"Kh", "Ц"=>"Ts", "Ч"=>"Ch", "Ш"=>"Sh", "Щ"=>"Shch",
+        "Ю"=>"Yu", "Я"=>"Ya"
+    }
+    symbols = down_case.merge(up_case)
 
-
+    ukr_name.chars.map{|char| symbols.has_key?(char) ? symbols.fetch(char):char}.join
 
   end
 
@@ -82,8 +108,17 @@ class LibraryManager
   # Возвращаемое значение 
   # - Пеня в центах или 0 при условии что читатель укладывается в срок здачи.
   def penalty_to_finish price, issue_datetime, pages_quantity, current_page, reading_speed
-    # решение пишем тут
+    need_hour=((pages_quantity-current_page)/reading_speed).ceil
+    end_time=DateTime.now.to_time+need_hour*60*60
+    zone_seconds_addon=0
+    seconds=end_time.strftime('%s').to_i-issue_datetime.strftime('%s').to_i+zone_seconds_addon
 
+    if seconds<=0
+      0
+    else
+      full_hours=(seconds/3600.round(1)).floor
+      (full_hours*price*0.1/100).round(0)
+    end
 
   end
 

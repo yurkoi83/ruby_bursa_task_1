@@ -1,3 +1,4 @@
+# encoding: utf-8
 require './library_manager.rb'
 require 'active_support/all'
 require 'pry'
@@ -70,7 +71,7 @@ describe LibraryManager do
 
       expect(res).to eq false
     end
-  
+
     it "meet each other, born and died in same years" do
       res = LibraryManager.new.could_meet_each_other?(1900, 1950, 1900, 1950)
 
